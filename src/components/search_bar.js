@@ -8,21 +8,24 @@ class SearchBar extends Component {
         super(props);
         //super means calling parent method(like calling Component class)
 
-        this.state = { term: ''};
+        this.state = {term: ''};
         //state creates object with properties in it when initialized
         //functional components do not have state, only Class components have state
 
-         this.onInputChange = this.onInputChange.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
     }
+
     render() {
         return (
             <div className="search-bar">
-            <input value={this.state.term}
-                   //adding above line makes input be a controlled component
-                //controlled component has it's value set by state
-                //so the value changes when state changes
-                onChange={this.onInputChange} />
-               {/*Value of the input: {this.state.term}*/}
+                <input value={this.state.term}
+                    //adding above line makes input be a controlled component
+                    //controlled component has it's value set by state
+                    //so the value changes when state changes
+                    //onChange={this.onInputChange} />
+                    //onChange={event => this.setState({ term: e.target.value})}
+                       onChange={e => this.onInputChange(e.target.value)} />
+                {/*Value of the input: {this.state.term}*/}
             </div>
             //ES Arrow function syntax----
             // return (<input onChange={e => console.log(e.target.value)} />;
@@ -30,10 +33,15 @@ class SearchBar extends Component {
         );
     }
 
-    onInputChange(e) {
-         this.setState({ term: e.target.value});
-         // console.log(e.target.value);
-        //this will console out whatever you put into input box on the page
+    //onInputChange(e) {
+    //this.setState({ term: e.target.value});
+    // console.log(e.target.value);
+    //this will console out whatever you put into input box on the page
+    //}
+
+    onInputChange(term) {
+        this.setState({term});
+        this.props.onSearchTermChange(term);
 
     }
 }

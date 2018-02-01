@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
@@ -18,29 +19,44 @@ class App extends Component {
             selectedVideo: null
     };
 
-        YTSearch({key: API_KEY, term: 'dogs'}, (videos) => {
+        //YTSearch({key: API_KEY, term: 'dogs'}, (videos) => { ---moved down to videoSearch(term) below
             // '(videos) =>' is equivalent to 'function(videos)'
             // console.log(videos);
             //this.setState({ videos: data });
             //this.setState({ videos: videos});
             //above 2 lines refactored to below 1 line
+           // this.setState({  ---moved down to videoSearch(term) below
+                //videos: videos, ---moved down to videoSearch(term) below
+                //selectedVideo: videos[0]  ---moved down to videoSearch(term) below
+            //});
+        //});
+
+        this.videoSearch('dogs');
+    }
+
+    videoSearch(term) {
+        YTSearch({key: API_KEY, term: term}, (videos) => {
             this.setState({
                 videos: videos,
                 selectedVideo: videos[0]
             });
-            //Refactor above line instead of 'data' use 'videos'
-
         });
     }
 
+    //when state changes, components re-Render!!!!
+
     render() {
+        const videoSearch = _.debounce((term) => { this.videoSearch(term) }, 300);
+        //adding lodash debounce to throttle or slowdown search box and results
+        //its same way as Google search box works
         return (
             <div>
-                <SearchBar />
+                <SearchBar onSearchTermChange={videoSearch} />
                 {/*<VideoDetail video={this.state.videos[0]} />*/}
                 <VideoDetail video={this.state.selectedVideo} />
                 <VideoList
                     onVideoSelect={ selectedVideo => this.setState({selectedVideo}) }
+                    //onVideo select is callback used for Parent - Child communication
                     videos={this.state.videos} />
             </div>
         );
