@@ -13,15 +13,21 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { videos: [] };
+        this.state = {
+            videos: [],
+            selectedVideo: null
+    };
 
-        YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
+        YTSearch({key: API_KEY, term: 'dogs'}, (videos) => {
             // '(videos) =>' is equivalent to 'function(videos)'
             // console.log(videos);
             //this.setState({ videos: data });
             //this.setState({ videos: videos});
             //above 2 lines refactored to below 1 line
-            this.setState({ videos });
+            this.setState({
+                videos: videos,
+                selectedVideo: videos[0]
+            });
             //Refactor above line instead of 'data' use 'videos'
 
         });
@@ -31,8 +37,11 @@ class App extends Component {
         return (
             <div>
                 <SearchBar />
-                <VideoDetail video={this.state.videos[0]} />
-                <VideoList videos={this.state.videos} />
+                {/*<VideoDetail video={this.state.videos[0]} />*/}
+                <VideoDetail video={this.state.selectedVideo} />
+                <VideoList
+                    onVideoSelect={ selectedVideo => this.setState({selectedVideo}) }
+                    videos={this.state.videos} />
             </div>
         );
     }

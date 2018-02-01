@@ -16,13 +16,13 @@ class SearchBar extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="search-bar">
             <input value={this.state.term}
                    //adding above line makes input be a controlled component
                 //controlled component has it's value set by state
                 //so the value changes when state changes
                 onChange={this.onInputChange} />
-               Value of the input: {this.state.term}
+               {/*Value of the input: {this.state.term}*/}
             </div>
             //ES Arrow function syntax----
             // return (<input onChange={e => console.log(e.target.value)} />;

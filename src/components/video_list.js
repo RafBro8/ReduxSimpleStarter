@@ -5,10 +5,14 @@ const VideoList = (props) => {
     // const videos = props.videos;
 
     const videoItems = props.videos.map((video) => {
-        return <VideoListItem key ={video.etag} video={video}/>
+        return(
+            <VideoListItem
+                onVideoSelect={props.onVideoSelect}
+                key ={video.etag}
+                video={video}/>
         //etag is unique id for videos (id for data you are retrieving from API)
         //etag is found in browser - network -  All - search?part=snippet&key
-
+        );
     });
     return(
         <ul className="col-md-4 list-group">
